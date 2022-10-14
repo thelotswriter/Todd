@@ -8,6 +8,7 @@ import tools
 deeptoken = os.getenv("DEEPAI_TOKEN")
 
 
+# Cog for generating images
 class MakePic(commands.Cog):
 
     def __init__(self, client):
@@ -15,14 +16,17 @@ class MakePic(commands.Cog):
 
     @commands.command()
     async def makepic(self, context, *, message=None):
+        # If not message is given, pull a random image
         if message is None:
             imlink = requests.get('https://source.unsplash.com/random/1200x800', allow_redirects=False).headers['Location']
         else:
+            # Run deepai text2image
             req = requests.post("https://api.deepai.org/api/text2img",
                                  data={'text' : message},
                                  headers={'api-key' : deeptoken})
 
             imlink = req.json()['output_url']
+        # Post the image from the link regardless of message existence
         await tools.post_img(context, imlink)
 
 

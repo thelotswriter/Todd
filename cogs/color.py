@@ -10,6 +10,7 @@ deeptoken = os.getenv("DEEPAI_TOKEN")
 attachment_error_text = 'Please be sure to attach an image.'
 
 
+# Cog for colorizing images
 class Color(commands.Cog):
 
     def __init__(self, client):
@@ -17,6 +18,7 @@ class Color(commands.Cog):
 
     @commands.command()
     async def color(self, context, *, message=None):
+        # If there is an image, get the image url and colorize
         if tools.image_attached(context.message):
             attachment = context.message.attachments[0]
             imgurl = attachment.url
